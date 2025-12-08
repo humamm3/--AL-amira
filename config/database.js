@@ -6,12 +6,12 @@ module.exports = ({ env }) => {
   const connections = {
     mysql: {
       connection: {
-        host: env('DATABASE_HOST', 'localhost'),
-        port: env.int('DATABASE_PORT', 3306),
-        database: env('DATABASE_NAME', 'strapi'),
-        user: env('DATABASE_USERNAME', 'strapi'),
+        host: env('DATABASE_HOST'),
+        port: env.int('DATABASE_PORT'),
+        database: env('DATABASE_NAME'),
+        user: env('DATABASE_USERNAME'),
         password: env('DATABASE_PASSWORD', 'strapi'),
-        ssl: env.bool('DATABASE_SSL', false) && {
+        ssl: env.bool('DATABASE_SSL') && {
           key: env('DATABASE_SSL_KEY', undefined),
           cert: env('DATABASE_SSL_CERT', undefined),
           ca: env('DATABASE_SSL_CA', undefined),
