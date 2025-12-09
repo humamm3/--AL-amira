@@ -1,4 +1,4 @@
-import{ Box, Container, Stack, Typography, useTheme,IconButton } from "@mui/material"
+import{ Box, Container, Stack, Typography, useTheme,IconButton, CircularProgress } from "@mui/material"
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import React, { useState } from 'react'
@@ -89,11 +89,11 @@ function Main() {
       <Stack direction={"row"} flexWrap={"wrap"} justifyContent={"space-between"} alignItems={"center"}>
          {data.data.map((item) => {
            return(
-            <Card key={item} sx={{ maxWidth: 300, mt:6,}}>
+            <Card key={item.id} sx={{minWidth: 300,maxWidth: 300, mt:6,}}>
       <CardMedia
         component="img"
         alt="green iguana"
-        height="390px"
+        height="340px"
         image={`${item.produktImg[0].formats.small.url}`}
 />
       <CardContent>
@@ -150,17 +150,22 @@ function Main() {
 
   if (isLoading) {
     return(
-      <Typography variant="h6">
-        LOADING.........
-      </Typography>
+        <Box sx={{ py:11, textAlign:"center" }}>
+      <CircularProgress />
+    </Box>
     )
     
   }
    if (error) {
     return(
-      <Typography variant="h6">
-        {error.message}
-      </Typography>
+      <Container sx={{ py: 11, textAlign:"center"}}>
+        <Typography variant="h6">
+          {error.error}
+        </Typography>
+        <Typography variant="h6">
+          Please try again later
+        </Typography>
+      </Container>
     )
     
   }
