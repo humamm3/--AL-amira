@@ -22,7 +22,7 @@ const Hero = () => {
        >
          
          <SwiperSlide>
-             <img style={{ width: "100%",height: "24em"}} src="src\imgs\15.jpg" alt="" />
+             <img style={{ width: "100%",height: "24em"}} src="./imgs/15.jpg" alt="" />
              <Box sx={{position:"absolute",left:"10%" , textAlign:"left", backgroundColor:"#a39b9b81", top:"3em"}}>
              <Typography sx={{color:"#222"}}
              variant="h6">
@@ -35,7 +35,7 @@ const Hero = () => {
       
             <Stack sx={{}}
             direction={"row"}
-            dlignItems={"center"} >
+            alignItems={"center"} >
               <Typography mr={1} color={"#333"}
               variant="h5">
                   SLE UP TO 
@@ -69,18 +69,18 @@ const Hero = () => {
          </Box>
          </SwiperSlide> 
          <SwiperSlide>
-             <img style={{ width: "100%",height: "24em"}} src="src\imgs\00.jpg" alt="" />
+             <img style={{ width: "100%",height: "24em"}} src=".//imgs/00.jpg" alt="" />
             
          </SwiperSlide>
        </Swiper>
       
        <Box sx={{display: {xs: "none", md:"block"}}}>
          <Box sx={{position:"relative"}}>
-           <img src="src\imgs\12.jpg" alt="" style={{width:"15em", height:"13.2em"}}/>
+           <img src="./imgs/12.jpg" alt="" style={{width:"15em", height:"13.2em" , objectFit:"contain"}}/>
          </Box>
       
          <Box sx={{position:"relative"}}>
-            <img src="src\imgs\logo.jpg" alt="" style={{width:"15em", height:"13.2em"}}/>
+            <img src="./imgs/logo.jpg" alt="" style={{width:"12.2em", height:"13.2em", marginLeft:"22px"}}/>
          </Box>
        </Box>
      </Box>

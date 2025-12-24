@@ -12,11 +12,11 @@ export const getDesignTokens = (mode) => ({
           myColor:{
             main:'#F6F9FC',
           },
+          text:{
+            primary:'#283445',
+          },
           bg:{
             main:"#F6F6F6",
-          },
-          text: {
-            primary: "#2B3445",
           },
           neutral: {
             main: "#64748B",
@@ -31,6 +31,9 @@ export const getDesignTokens = (mode) => ({
            myColor:{
             main:'#252b32',
           },
+           text:{
+            primary:'#fff',
+          },
           bg:{
             main:"#1D2021",
           },
@@ -40,10 +43,7 @@ export const getDesignTokens = (mode) => ({
 
           favColor: {
             main: grey[800],
-          },
-          text: {
-            primary: "#fff",
-          },
+          },  
         }),
   },
 });

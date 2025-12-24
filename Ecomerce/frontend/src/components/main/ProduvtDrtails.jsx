@@ -1,7 +1,11 @@
 import { Box, Button, Stack, Typography } from '@mui/material'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { useState } from 'react';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-const ProduvtDrtails = () => {
+const ProduvtDrtails = ({clickedProduct}) => {
+ const [selectedImg, setselectedImg] = useState(0);
   return (
     <Box sx={{ 
         display:"flex",
@@ -10,25 +14,64 @@ const ProduvtDrtails = () => {
         flexDirection:{xs:"column ", sm:"row"}
         }}>
       <Box sx={{display:"flex"}} >
-        <img width={200}  src="src\imgs\003.jpg" alt="" />
+        <img width={320} style={{maxHeight: 500, objectFit:"contain"}} src={clickedProduct.produktImg[selectedImg].url} alt="" />
       </Box>
-      <Box sx={{textAlign:{xs:"center", sm:"left"}}}>
-        <Typography variant="h5"> WOMENS FASHION</Typography>
+      <Box sx={{ py: 2, textAlign:{xs:"center", sm:"left"}}}>
+        <Typography variant="h5"> {clickedProduct.produktTitle}</Typography>
         <Typography my={0.4} fontSize={"22px"} color={"crimson"} variant="h5">
-            $12.99
+            {clickedProduct.produktPrice}TL
         </Typography>
         <Typography variant="body1">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {clickedProduct.produktDescription}
         </Typography>
 
         <Stack sx={{justifyContent:{xs:"center", sm:"left"}}} direction={"row"} gap={1} my={2}>
-            {["src/imgs/0004.jpg", "src/imgs/0005.jpg" ].map((item) => {
+          
+           <ToggleButtonGroup
+      value={selectedImg}
+      exclusive
+      
+       sx={{
+            ".Mui-selected": {
+              border: "1px solid royalblie !important",
+              borderRadius: "5px !important",
+              opacity:"1",
+              backgroundColor: "initial",
+            },
+          }}
+      >
+          
+            {clickedProduct.produktImg.map((item, index) => {
               return(
-                <img style={{borderRadius: 3}} width={90} height={"50%"} key={item} src={item} alt="" />
+
+                <ToggleButton key={item.id}  value={index} 
+                sx={{
+                  width:"140px",
+                  height: "180px",
+                  mx: 1,
+                  p: "0",
+                  opacity:"0.5",
+                }}>
+        
+                  <img 
+                  onClick={() => {
+                    setselectedImg(index);
+                  }}
+                  style={{borderRadius: 3, objectFit:"contain"}} 
+                  width={"100%"} 
+                  height={"100%"} 
+                  
+                  src={item.url} 
+                  alt="" />
+                </ToggleButton>
               )
             }
             )}
+
+        </ToggleButtonGroup>
+
+
+
 
         </Stack>
 
