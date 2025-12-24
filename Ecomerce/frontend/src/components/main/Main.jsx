@@ -18,6 +18,7 @@ function Main() {
   const handleAlignment = (event, newAlignment) => {
     setAlignment(newAlignment);
     setmyDate(newAlignment)
+  }
   };
      const theme= useTheme()
        const [open, setOpen] = React.useState(false);
