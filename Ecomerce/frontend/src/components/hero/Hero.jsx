@@ -33,7 +33,7 @@ const Hero = () => {
                  WOMAN
              </Typography>
       
-            <Stack sx={{}}
+            <Stack 
             direction={"row"}
             alignItems={"center"} >
               <Typography mr={1} color={"#333"}

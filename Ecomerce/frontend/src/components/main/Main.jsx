@@ -1,38 +1,65 @@
-import { Box, Container, Stack, Typography, useTheme, IconButton, CircularProgress } from "@mui/material";
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import React, { useState } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Dialog from '@mui/material/Dialog';
+import {
+  Box,
+  Container,
+  Stack,
+  Typography,
+  useTheme,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { useState, useEffect, useRef } from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Dialog from "@mui/material/Dialog";
 import { Close } from "@mui/icons-material";
 import ProduvtDrtails from "./ProduvtDrtails";
 import { useGetproductByNameQuery } from "../../Redux/product";
-import { AnimatePresence,motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-const Main = () => {
+const Main = ({ searchText }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const mainRef = useRef(null);
+
   const [open, setOpen] = useState(false);
   const [myDate, setmyDate] = useState("products?populate=*");
   const [clickedProduct, setclickedProduct] = useState({});
-
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const allProductsAPI = "products?populate=*";
-  const namazkiyafetleriAPI = "products?populate=*&filters[category][$eq]=Namaz%20k%C4%B1yafetleri";
-  const basortusuAPI = "products?populate=*&filters[category][$eq]=başörtüsü";
+  const namazkiyafetleriAPI =
+    "products?populate=*&filters[category][$eq]=Namaz%20k%C4%B1yafetleri";
+  const basortusuAPI =
+    "products?populate=*&filters[category][$eq]=başörtüsü";
 
   const handleAlignment = (event, newAlignment) => {
     if (newAlignment !== null) {
-      setmyDate(newAlignment); // دايمًا string
+      setmyDate(newAlignment);
     }
   };
+
+  useEffect(() => {
+    if (searchText && searchText.trim() !== "") {
+      setmyDate(
+        `products?populate=*&filters[produktTitle][$containsi]=${searchText}`
+      );
+
+      setTimeout(() => {
+        mainRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 200);
+    } else {
+      setmyDate(allProductsAPI);
+    }
+  }, [searchText]);
 
   const { data, error, isLoading } = useGetproductByNameQuery(myDate);
 
@@ -56,13 +83,15 @@ const Main = () => {
   if (!data) return null;
 
   return (
-    <Container sx={{ py: 9 }}>
+    <Container ref={mainRef} sx={{ py: 7 }}>
       <Stack
+        id="filters-section"
         direction="row"
         alignItems="center"
-        justifyContent="space-between"
+        sx={{justifyContent:{xs:"center",md:"space-between"}}}
         flexWrap="wrap"
         gap={3}
+        
       >
         <Box>
           <Typography variant="h6">Selected Products</Typography>
@@ -87,27 +116,34 @@ const Main = () => {
         >
           <ToggleButton
             sx={{ color: theme.palette.text.primary }}
-            className="myButton"
             value={allProductsAPI}
           >
             All Products
           </ToggleButton>
+
           <ToggleButton
             sx={{ mx: "16px !important", color: theme.palette.text.primary }}
-            className="myButton"
             value={basortusuAPI}
           >
             Başörtüsü
           </ToggleButton>
+
           <ToggleButton
             sx={{ color: theme.palette.text.primary }}
-            className="myButton"
             value={namazkiyafetleriAPI}
           >
             Namaz kiyafetleri
           </ToggleButton>
         </ToggleButtonGroup>
       </Stack>
+
+      {data.data.length === 0 && (
+        <Box sx={{ width: "100%", textAlign: "center", mt: 12 }}>
+          <Typography variant="h6" color="text.secondary">
+            ❌ لم يتم العثور على المنتج الذي تبحث عنه
+          </Typography>
+        </Box>
+      )}
 
       <Stack
         direction="row"
@@ -116,50 +152,63 @@ const Main = () => {
         alignItems="center"
       >
         <AnimatePresence>
-        {data.data.map((item) => {
-          return(
+          {data.data.map((item) => (
+            <Card
+              component={motion.section}
+              layout
+              initial={{ transform: "scale(0)" }}
+              animate={{ transform: "scale(1)" }}
+              transition={{ duration: 1.6, type: "spring", stiffness: 50 }}
+              key={item.id}
+              sx={{
+                minWidth: 300,
+                maxWidth: 300,
+                mt: 6,
+                cursor: "pointer",
+              }}
+              onClick={() => navigate(`/product/${item.documentId}`)}
+            >
+              <CardMedia
+                component="img"
+                alt={item.produktTitle}
+                height="300px"
+                image={item.produktImg[0].formats.small.url}
+              />
 
-          <Card 
-          component={motion.section}
-          layout
-          initial={{ transform: "scale(0)" }}
-          animate={{ transform: "scale(1)" }}
-          transition={{ duration: 1.6, type: "spring", stiffness: 50 }}
-          key={item.id} 
-          sx={{ minWidth: 300, maxWidth: 300, mt: 6 }}>
-            <CardMedia
-              component="img"
-              alt={item.produktTitle}
-              height="300px"
-              image={`${item.produktImg[0].formats.small.url}`}
-            />
-            <CardContent>
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
-                <Typography gutterBottom variant="h6" component="div">
-                  {item.produktTitle}
+              <CardContent>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography gutterBottom variant="h6">
+                    {item.produktTitle}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    {item.produktPrice} <span>TL</span>
+                  </Typography>
+                </Stack>
+
+                <Typography
+                  variant="body2"
+                  sx={{ color: "text.secondary" }}
+                >
+                  {item.produktDescription}
                 </Typography>
-                <Typography variant="subtitle1" component="p">
-                  {item.produktPrice} <span>TL</span>
-                </Typography>
-              </Stack>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {item.produktDescription}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button onClick={() => {
-                handleClickOpen()
-                setclickedProduct(item)
-                
-              }
-              } sx={{ textTransform: "capitalize" }} size="large">
-                <AddShoppingCartIcon sx={{ mr: 1 }} fontSize="small" />
-                Add Cart
-              </Button>
-            </CardActions>
-          </Card>
-          )
-        })}
+              </CardContent>
+
+              
+              <CardActions onClick={(e) => e.stopPropagation()}>
+                <Button
+                  onClick={() => {
+                    handleClickOpen();
+                    setclickedProduct(item);
+                  }}
+                  sx={{ textTransform: "capitalize" }}
+                  size="large"
+                >
+                  <AddShoppingCartIcon sx={{ mr: 1 }} fontSize="small" />
+                  Add Cart
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
         </AnimatePresence>
       </Stack>
 
@@ -174,6 +223,7 @@ const Main = () => {
             position: "absolute",
             top: 0,
             right: 10,
+            zIndex:1301
           }}
           onClick={handleClose}
         >
