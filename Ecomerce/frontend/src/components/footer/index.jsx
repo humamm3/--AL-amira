@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from '@mui/material';
 
 
-const Footer = () => {
+const Index = () => {
   return (
     <Box 
     sx={{ 
@@ -35,4 +35,4 @@ const Footer = () => {
   )
 }
 
-export default Footer;
+export default Index;
