@@ -1,7 +1,7 @@
 import { Container, Stack, Box, Typography ,useTheme, useMediaQuery } from "@mui/material";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt"
 import CreditScoreOutlinedIcon from "@mui/icons-material/CreditScoreOutlined"
-import WorkspacepremiumOutlinedIcon from "@mui/icons-material/WorkspacepremiumOutlined"
+import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined"
 import AccessAlarmOutlinedIcon from "@mui/icons-material/AccessAlarmOutlined"
 
 
@@ -19,7 +19,7 @@ const IconsSection = () => {
         subTitle={"Start from $10"}/>
 
         <MyBox 
-        icon={<WorkspacepremiumOutlinedIcon fontSize="large"/>} 
+        icon={<WorkspacePremiumOutlinedIcon fontSize="large"/>} 
         title={"Money Guarantee"} 
         subTitle={"7 Days Back"} />
 
