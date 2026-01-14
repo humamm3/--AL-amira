@@ -6,7 +6,7 @@ import { ColorModeContext, useMode } from "./theme";
 import Hero from "./components/hero/Hero";
 import Login from "./components/header/login";
 import Main from "./components/main/Main";
-import Footer from "./components/footer/footer";
+import Footer from "./components/footer/Footer";
 import ScrollToTop from "./components/scroll/ScrollToTop";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
