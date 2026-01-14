@@ -1,23 +1,23 @@
-import Header1 from "./components/header/Header1";
-import Header2 from "./components/header/Header2";
-import Header3 from "./components/header/Header3";
+import Header1 from "./components/header/Header1.jsx";
+import Header2 from "./components/header/Header2.jsx";
+import Header3 from "./components/header/Header3.jsx";
 import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import Hero from "./components/hero/Hero";
-import Login from "./components/header/login";
+import Hero from "./components/hero/Hero.jsx";
+import Login from "./components/header/login.jsx";
 import Main from "./components/main/Main.jsx";
 import Footer from "./components/Footer/Footer.jsx";
-import ScrollToTop from "./components/scroll/ScrollToTop";
+import ScrollToTop from "./components/scroll/ScrollToTop.jsx";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import  ProductPage  from "./pages/ProductPage";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
-import Payment from "./pages/Payment";
-import BankTransfer from "./pages/BankTransfer";
-import CardPayment from "./pages/CardPayment";
-import Success from "./pages/Success";
-import Register from "./pages/Register";
+import  ProductPage  from "./pages/ProductPage.jsx";
+import Cart from "./pages/Cart.jsx";
+import Checkout from "./pages/Checkout.jsx";
+import Payment from "./pages/Payment.jsx";
+import BankTransfer from "./pages/BankTransfer.jsx";
+import CardPayment from "./pages/CardPayment.jsx";
+import Success from "./pages/Success.jsx";
+import Register from "./pages/Register.jsx";
 function App() {
   const [theme, colorMode] = useMode()
   const [searchText, setSearchText] = useState("");
