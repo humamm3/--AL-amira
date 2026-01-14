@@ -13,8 +13,8 @@ import { useState, useEffect } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Close from "@mui/icons-material/Close";
 
-import ProduvtDrtails from "../components/main/ProduvtDrtails";
-import Main from "../components/main/Main";
+import ProduvtDrtails from "../components/Main/ProduvtDrtails";
+import Main from "../components/Main/Main";
 import "../pages/productViewer.css"
 
 const ProductPage = () => {
