@@ -3,9 +3,11 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
+import { addToCart } from "../../utils/cart"
+import { useNavigate } from "react-router-dom";
 const ProduvtDrtails = ({ clickedProduct }) => {
   const [selectedImg, setselectedImg] = useState(0);
+   const navigate = useNavigate();
 
   return (
     <Box
@@ -107,21 +109,30 @@ const ProduvtDrtails = ({ clickedProduct }) => {
          </Typography>
         
          {/* button */}
-         <Button
-         
-           fullWidth
-           variant="contained"
-           sx={{
-             mt: 2,
-             textTransform: "capitalize",
-             width: { xs: "56%", sm: "auto" },
-             alignSelf:"flex-end",
-             marginRight:"18%"
-           }}
-         >
-           <AddShoppingCartIcon sx={{ mr: 1 }} fontSize="small" />
-           Buy now
-         </Button>
+         <Box
+         variant="contained" 
+         onClick={() => navigate("/Cart")}
+          fullWidth
+          
+          sx={{
+            mt: 2,
+            textTransform: "capitalize",
+               width: { xs: "56%", sm: "auto" },
+               alignSelf:"flex-end",
+               marginRight:"18%"
+             }}>
+                  <Button
+             onClick={() => addToCart({
+               id: clickedProduct.id,
+               title: clickedProduct.produktTitle,
+               price: clickedProduct.produktPrice,
+               produktImg: clickedProduct.produktImg,
+               img: clickedProduct.produktImg[0].url,
+             })}variant="contained">
+             <AddShoppingCartIcon sx={{ mr: 1 }} fontSize="small"  />
+                Buy now
+           </Button>
+         </Box>
        </Stack >
       </Box>
     </Box>

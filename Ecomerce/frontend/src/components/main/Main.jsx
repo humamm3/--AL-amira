@@ -161,8 +161,8 @@ const Main = ({ searchText }) => {
               transition={{ duration: 1.6, type: "spring", stiffness: 50 }}
               key={item.id}
               sx={{
-                minWidth: 300,
-                maxWidth: 300,
+                minWidth: 250,
+                maxWidth: 250,
                 mt: 6,
                 cursor: "pointer",
               }}
@@ -181,7 +181,7 @@ const Main = ({ searchText }) => {
                     {item.produktTitle}
                   </Typography>
                   <Typography variant="subtitle1">
-                    {item.produktPrice} <span>TL</span>
+                    {item.produktPrice} <span style={{color:"#991313ff", fontWeight:"bold"}}>TL</span>
                   </Typography>
                 </Stack>
 

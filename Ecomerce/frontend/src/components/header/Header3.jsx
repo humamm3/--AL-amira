@@ -5,34 +5,29 @@ import {
   Box,
   useTheme,
   IconButton,
-  ListItemIcon,
-  ListItemText,
   Stack,
+  Button,
+  Menu,
+  MenuItem,
+  ListItemIcon,
 } from "@mui/material";
 import { useState } from "react";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import EmailIcon from '@mui/icons-material/Email';
+import EmailIcon from "@mui/icons-material/Email";
 import KeyboardArrowRightOutlinedIcon from "@mui/icons-material/KeyboardArrowRightOutlined";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import CallIcon from "@mui/icons-material/Call";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import { Close } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
 
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
+import HomeIcon from "@mui/icons-material/Home";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import LoginIcon from "@mui/icons-material/Login";
 
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Links from "./Links";
-
 
 const CONTACTS = {
   whatsapp: "https://wa.me/905347080488",
@@ -40,30 +35,46 @@ const CONTACTS = {
   facebook: "https://www.facebook.com/share/1BdW4nydkK/",
 };
 
-
 const Header3 = () => {
+  const theme = useTheme();
+  const navigate = useNavigate();
+
+  /* ===== Contact menu ===== */
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
-  const theme = useTheme();
-  const [state, setState] = useState({
-    top: false
-  });
+  /* ===== Mobile drawer ===== */
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
+  const links = [
+    { label: "Home", icon: <HomeIcon />, action: "home" },
+    { label: "Products", icon: <ShoppingBagIcon />, action: "products" },
+    { label: "Cart", icon: <ShoppingCartIcon />, action: "cart" },
+    { label: "Login", icon: <LoginIcon />, action: "login" },
+  ];
+
+  const handleNavigate = (action) => {
+    if (action === "home") {
+      navigate("/");
     }
-    setState({ ...state, [anchor]: open });
+
+    if (action === "products") {
+      navigate("/");
+      setTimeout(() => {
+        const section = document.getElementById("filters-section");
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 200);
+    }
+
+    if (action === "cart") {
+      navigate("/cart");
+    }
+
+    if (action === "login") {
+      navigate("/login");
+    }
   };
 
   return (
@@ -72,146 +83,111 @@ const Header3 = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        mt: "5",
+        mt: 1,
       }}
     >
-      {/* ================== CATEGORIES BUTTON ================== */}
+      {/* ================== CONTACT BUTTON ================== */}
       <Box>
         <Button
-          id="basic-button"
-          aria-controls={open ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          onClick={handleClick}
+          onClick={(e) => setAnchorEl(e.currentTarget)}
           sx={{
-            width: 222,
+            width: 200,
             bgcolor: theme.palette.myColor.main,
-            color: theme.palette.text.secondary
+            color: theme.palette.text.secondary,
           }}
         >
           <EmailIcon />
-          <Typography sx={{ mx: 1, textTransform: "capitalize" }}>
-            Contact
-          </Typography>
+          <Typography sx={{ mx: 1 }}>Contact</Typography>
           <Box flexGrow={1} />
           <KeyboardArrowRightOutlinedIcon />
         </Button>
 
         <Menu
-          id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
+          onClose={() => setAnchorEl(null)}
           sx={{
             ".MuiList-root": {
-              width: 220,
-              background: theme.palette.myColor.main,
+              width: 200,
+              bgcolor: theme.palette.myColor.main,
             },
           }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem component="a" href={CONTACTS.whatsapp} target="_blank">
             <ListItemIcon>
               <WhatsAppIcon fontSize="small" />
             </ListItemIcon>
-            <a
-              href={CONTACTS.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "inherit", textDecoration: "none", width: "100%" }}
-            >
-              WhatsApp
-            </a>
+            WhatsApp
           </MenuItem>
 
-          <MenuItem onClick={handleClose}>
+          <MenuItem component="a" href={CONTACTS.call}>
             <ListItemIcon>
               <CallIcon fontSize="small" />
             </ListItemIcon>
-            <a
-              href={CONTACTS.call}
-              style={{ color: "inherit", textDecoration: "none", width: "100%" }}
-            >
-              Call
-            </a>
+            Call
           </MenuItem>
 
-          <MenuItem onClick={handleClose}>
+          <MenuItem component="a" href={CONTACTS.facebook} target="_blank">
             <ListItemIcon>
               <FacebookIcon fontSize="small" />
             </ListItemIcon>
-            <a
-              href={CONTACTS.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "inherit", textDecoration: "none", width: "100%" }}
-            >
-              Facebook
-            </a>
+            Facebook
           </MenuItem>
         </Menu>
       </Box>
 
-      {/* ================== LINKS DESKTOP ================== */}
+      {/* ================== DESKTOP LINKS ================== */}
       {useMediaQuery("(min-width:1200px)") && (
-        <Stack gap={4} alignItems="center" direction="row">
-          <Links title={"Home"} />
-          <Links title={"Mega Menu"} />
-          <Links title={"Full Screen Menu"} />
-          <Links title={"Pages"} />
-          <Links title={"User Account"} />
-          <Links title={"Vendor Account"} />
+        <Stack direction="row" spacing={4}>
+          {links.map((link) => (
+            <Button
+              key={link.label}
+              startIcon={link.icon}
+              onClick={() => handleNavigate(link.action)}
+              sx={{ color: "text.primary" }}
+            >
+              {link.label}
+            </Button>
+          ))}
         </Stack>
       )}
 
       {/* ================== MOBILE MENU ================== */}
       {useMediaQuery("(max-width:1200px)") && (
-        <IconButton onClick={toggleDrawer("top", true)}>
+        <IconButton onClick={() => setDrawerOpen(true)}>
           <MenuIcon />
         </IconButton>
       )}
 
       <Drawer
         anchor="top"
-        open={state.top}
-        onClose={toggleDrawer("top", false)}
-        sx={{
-          ".MuiDrawer-paper": { height: "100%" },
-        }}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        sx={{ ".MuiDrawer-paper": { height: "100%" } }}
       >
-        <Box sx={{ width: 444, mx: "auto", mt: 6, position: "relative", pt: 10 }}>
+        <Box sx={{ width: 300, mx: "auto", mt: 8, position: "relative" }}>
           <IconButton
-            sx={{
-              position: "absolute",
-              top: 0,
-              mr: 1,
-              ":hover": { color: "red", rotate: "180deg", transition: "0.3s" },
-            }}
-            onClick={toggleDrawer("top", false)}
+            sx={{ position: "absolute", top: -50, right: 0 }}
+            onClick={() => setDrawerOpen(false)}
           >
-            <Close />
+            <CloseIcon />
           </IconButton>
 
-          {[
-            { mainlink: "Home", sublink: ["link1", "link2"] },
-            { mainlink: "Mega menu", sublink: ["link1", "link2"] },
-            { mainlink: "Pages", sublink: ["link1", "link2"] },
-          ].map((item) => (
-            <Accordion key={item.mainlink} elevation={0} sx={{ bgcolor: "initial" }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>{item.mainlink}</Typography>
-              </AccordionSummary>
-
-              <List>
-                {item.sublink.map((link) => (
-                  <ListItem key={link} sx={{ py: 0 }}>
-                    <ListItemButton>
-                      <ListItemText primary={link} />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Accordion>
-          ))}
+          <Stack spacing={3} mt={4}>
+            {links.map((link) => (
+              <Button
+                key={link.label}
+                startIcon={link.icon}
+                fullWidth
+                onClick={() => {
+                  handleNavigate(link.action);
+                  setDrawerOpen(false);
+                }}
+              >
+                {link.label}
+              </Button>
+            ))}
+          </Stack>
         </Box>
       </Drawer>
     </Container>

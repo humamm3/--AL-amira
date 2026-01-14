@@ -1,4 +1,4 @@
-import { ExpandMore, ShoppingCartOutlined } from "@mui/icons-material";
+import { ExpandMore } from "@mui/icons-material";
 import {
   Container,
   Typography,
@@ -12,12 +12,16 @@ import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { useNavigate } from "react-router-dom";
+import { getCart } from "../../utils/cart";
+
+/* ================= STYLES ================= */
 
 const Search = styled("div")(({ theme }) => ({
   flexGrow: 0.4,
@@ -28,7 +32,7 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     border: "1px solid #333",
   },
-  width:"266px",
+  width: "266px",
   [theme.breakpoints.up("sm")]: {
     width: "330px",
   },
@@ -48,9 +52,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`
-  }
-}))
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  },
+}));
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -60,7 +64,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
+/* ================= COMPONENT ================= */
+
 const Header2 = ({ setSearchText }) => {
+  const navigate = useNavigate();
+
   const options = [
     "Show MUI",
     "All content",
@@ -70,19 +78,38 @@ const Header2 = ({ setSearchText }) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
 
   const hasScrolled = useRef(false);
 
+  /* ===== 🛒 تحديث عدد السلة مباشرة ===== */
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cart = getCart();
+      const count = cart.reduce(
+        (acc, item) => acc + item.quantity,
+        0
+      );
+      setCartCount(count);
+    };
+
+    updateCartCount(); // أول تحميل
+
+    window.addEventListener("cartUpdated", updateCartCount);
+
+    return () => {
+      window.removeEventListener("cartUpdated", updateCartCount);
+    };
+  }, []);
+
+  /* ===== 🔍 البحث ===== */
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchText(value);
 
     if (value.length > 0 && !hasScrolled.current) {
       const filters = document.getElementById("filters-section");
-      filters?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      filters?.scrollIntoView({ behavior: "smooth", block: "start" });
       hasScrolled.current = true;
     }
 
@@ -92,19 +119,18 @@ const Header2 = ({ setSearchText }) => {
   };
 
   return (
-    // 🔴 البحث Sticky
     <Box
       sx={{
         position: "sticky",
         top: 0,
         zIndex: 1200,
         bgcolor: "background.paper",
-        
       }}
     >
-      <Container sx={{ my: 2, display: "flex", justifyContent: "space-between", }}>
-        
-
+      <Container
+        sx={{ my: 2, display: "flex", justifyContent: "space-between" }}
+      >
+        {/* ===== Search ===== */}
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
@@ -153,14 +179,17 @@ const Header2 = ({ setSearchText }) => {
           </Menu>
         </Search>
 
+        {/* ===== Icons ===== */}
         <Stack direction="row" alignItems="center">
-          <IconButton>
-            <StyledBadge badgeContent={4} color="primary">
+          {/* 🛒 Cart */}
+          <IconButton onClick={() => navigate("/cart")}>
+            <StyledBadge badgeContent={cartCount} color="primary">
               <ShoppingCartIcon />
             </StyledBadge>
           </IconButton>
 
-          <IconButton>
+          {/* 👤 User */}
+          <IconButton onClick={() => navigate("/login")}>
             <Person2OutlinedIcon />
           </IconButton>
         </Stack>

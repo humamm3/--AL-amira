@@ -1,11 +1,11 @@
 import { Box, Typography, Button } from '@mui/material';
-import React from 'react'
+
 
 const Footer = () => {
   return (
     <Box 
     sx={{ 
-        
+        flexWrap:"wrap",
         bgcolor:"#2883445",
         py:1.3,
         borderTopLeftRadius: 8,
@@ -13,7 +13,7 @@ const Footer = () => {
     }}>
         <Typography 
         justifyContent={"center"}
-        display={"flex"}
+        
         alignItems={"center"}
         color={"HighlightText"}
         variant='h6'
@@ -24,16 +24,13 @@ const Footer = () => {
                 mx:0.5,
                 fontSize:"18px",
                 textTransform:"capitalize",
-                color:"#ff7790",
-            }}
-            variant='text'
-            color='primary'>
+                color:"#ff7790"}}
+                variant='text'
+                color='primary'>
                 ALAMIRA
-
             </Button>
             ©2026
         </Typography>
-      
     </Box>
   )
 }
