@@ -5,7 +5,7 @@ import { CssBaseline, ThemeProvider, Box } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Hero from "./components/hero/Hero";
 import Login from "./components/header/login";
-import Main from "./components/Main/Main.jsx";
+import Main from "./components/main/Main.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import ScrollToTop from "./components/scroll/ScrollToTop";
 import { useState } from "react";
