@@ -5,7 +5,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { addToCart } from "../../utils/cart"
 import { useNavigate } from "react-router-dom";
-const ProduvtDrtails = ({ clickedProduct }) => {
+const ProductDrtails = ({ clickedProduct }) => {
   const [selectedImg, setselectedImg] = useState(0);
    const navigate = useNavigate();
 
@@ -139,4 +139,4 @@ const ProduvtDrtails = ({ clickedProduct }) => {
   );
 };
 
-export default ProduvtDrtails;
+export default ProductDrtails;

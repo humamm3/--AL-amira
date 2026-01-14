@@ -18,7 +18,7 @@ import Button from "@mui/material/Button";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Dialog from "@mui/material/Dialog";
 import { Close } from "@mui/icons-material";
-import ProduvtDrtails from "./ProduvtDrtails";
+import ProductDrtails from "./ProductDrtails";
 import { useGetproductByNameQuery } from "../../Redux/product";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -230,7 +230,7 @@ const Main = ({ searchText }) => {
           <Close />
         </IconButton>
 
-        <ProduvtDrtails clickedProduct={clickedProduct} />
+        <ProductDrtails clickedProduct={clickedProduct} />
       </Dialog>
     </Container>
   );
