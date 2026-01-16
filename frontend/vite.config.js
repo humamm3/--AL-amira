@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-    allowedHosts: ['al-amira.onrender.com']
+    allowedHosts: ['http://localhost:1337/api']
   }
 })

@@ -1,189 +1,103 @@
-import   { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ColorModeContext } from "../../theme";
-import { Box, IconButton, useTheme, Typography, Stack, Container } from "@mui/material";
-import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import ExpandMore from  '@mui/icons-material/ExpandMore';
+import {
+  Box,
+  IconButton,
+  useTheme,
+  Typography,
+  Stack,
+  Container,
+  Link,
+  Menu,
+  MenuItem
+} from "@mui/material";
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import {
+  DarkModeOutlined,
+  LightModeOutlined,
+  ExpandMore
+} from "@mui/icons-material";
 
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
-const options = [
-  'AR',
-  'EN',
-  
+import { useTranslation } from "react-i18next";
+
+const SOCIAL_LINKS = {
+  whatsapp: "https://wa.me/905347080488",
+  facebook: "https://www.facebook.com/share/1BdW4nydkK/",
+  instagram: "https://www.instagram.com/alamira_kasir"
+};
+
+const languages = [
+  { label: "AR", code: "ar" },
+  { label: "EN", code: "en" },
+  { label: "TR", code: "tr" }
 ];
 
-
-
-
-
-
-
-
 const Header1 = () => {
-   const colorMode = useContext(ColorModeContext);
+  const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
-   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
-  const open = Boolean(anchorEl);
-  const handleClickListItem = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const { i18n } = useTranslation();
 
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setAnchorEl(null);
-  };
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [lang, setLang] = useState("AR");
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
-    <Box sx={{
-      bgcolor:"#2B3445",
-      py:"4px",
-      borderBottomLeftRadius:4,
-      borderBottomRightRadius:4,
-    }}>
+    <Box sx={{ bgcolor: "#2B3445", py: 1 }}>
+      <Container maxWidth={false}>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Typography color="#D23F57" fontWeight="bold">
+            ALAMIRA
+          </Typography>
 
- <Container>
-  <Stack direction={"row"} alignItems={"center"}>
-       <Typography 
-       sx={{
-         mr: 2,
-         p: "3px 10px",
-         bgcolor: "#D23F57",
-         borderRadius: "12px",
-         fontSize: "10x",
-         fontWeight: "bold",
-         color: "#fff",
-  
-       }}variant="body2">
-         HOT
-         
-         
-       </Typography>
-       <Typography sx={{
-         fontSize: "12px",
-         fontWeight: "300",
-         color: "#fff",
-       }}variant= "body2">
-       Free Express Shipping
-       </Typography>
-  <Box flexGrow={1}/>
+          <Box flexGrow={1} />
 
-  
-        <div>
-       {theme.palette.mode === "light" ? (
-         <IconButton
-           onClick={() => {
-             localStorage.setItem(
-               "mode",
-               theme.palette.mode === "dark" ? "light" : "dark"
-             );
-             colorMode.toggleColorMode();
-           }}
-           color="inherit"
-         >
-           <LightModeOutlined sx={{fontSize:"18px", color:"#fff"}} />
-         </IconButton>
-       ) : (
-         <IconButton
-           onClick={() => {
-             localStorage.setItem(
-               "mode",
-               theme.palette.mode === "dark" ? "light" : "dark"
-             );
-             colorMode.toggleColorMode();
-           }}
-           color="inherit"
-         >
-           <DarkModeOutlined sx={{fontSize:"18px"}}/>
-         </IconButton>
-       )}
-        </div>
+          {/* Dark / Light */}
+          <IconButton onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "light" ? (
+              <LightModeOutlined sx={{ color: "#fff" }} />
+            ) : (
+              <DarkModeOutlined sx={{ color: "#fff" }} />
+            )}
+          </IconButton>
 
+          {/* Language */}
+          <Box onClick={(e) => setAnchorEl(e.currentTarget)} sx={{ cursor: "pointer", color: "#fff" }}>
+            {lang} <ExpandMore fontSize="small" />
+          </Box>
 
+          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+            {languages.map((l) => (
+              <MenuItem
+                key={l.code}
+                onClick={() => {
+                  setLang(l.label);
+                  i18n.changeLanguage(l.code);
+                  setAnchorEl(null);
+                }}
+              >
+                {l.label}
+              </MenuItem>
+            ))}
+          </Menu>
 
-          <List
-        component="nav"
-        aria-label="Device settings"
-        sx={{p: 0, m: 0 }}
-      >
-        <ListItem
-          id="lock-button"
-          aria-haspopup="listbox"
-          aria-controls="lock-menu"
-          aria-label="when device is locked"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClickListItem}
-          
-        >
-          <ListItemText
-            sx={{".MuiTypography-root":{fontSize:"13px", color:"#fff" } }}
-            secondary={options[selectedIndex]}
-          />
-          <ExpandMore sx={{fontSize:"18px", color:"#fff"}} />
-        </ListItem>
-      </List>
-      <Menu
-        id="lock-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        slotProps={{
-          list: {
-            'aria-labelledby': 'lock-button',
-            role: 'listbox',
-          },
-        }}
-      >
-        {options.map((option, index) => (
-          <MenuItem
-          sx={{fontSize: "13px", p:"4px 12px", minHeight:"10px"}}
-            key={option}
-            
-            selected={index === selectedIndex}
-            onClick={(event) => handleMenuItemClick(event, index)}
-          >
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
+          <Link href={SOCIAL_LINKS.facebook} target="_blank">
+            <FacebookIcon sx={{ color: "#fff" }} />
+          </Link>
 
+          <Link href={SOCIAL_LINKS.whatsapp} target="_blank">
+            <WhatsAppIcon sx={{ color: "#fff" }} />
+          </Link>
 
-                
-        <FacebookIcon
-        sx={{
-          fontSize:"16",
-          mx:1,
-          color:"#fff",
-        }}/>
-
-        <WhatsAppIcon
-        sx={{
-          fontSize:"16",
-          color:"#fff",
-          mx:1,
-        }}/>
-
-        <InstagramIcon
-        sx={{
-          fontSize:"16",
-          color:"#fff",
-          mx:1,
-        }}/>
- </Stack>
- </Container>
+          <Link href={SOCIAL_LINKS.instagram} target="_blank">
+            <InstagramIcon sx={{ color: "#fff" }} />
+          </Link>
+        </Stack>
+      </Container>
     </Box>
   );
 };
 
-export default Header1
+export default Header1;

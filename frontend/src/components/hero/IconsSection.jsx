@@ -1,37 +1,42 @@
 import { Container, Stack, Box, Typography ,useTheme, useMediaQuery } from "@mui/material";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt"
 import CreditScoreOutlinedIcon from "@mui/icons-material/CreditScoreOutlined"
-import WorkspacepremiumOutlinedIcon from "@mui/icons-material/WorkspacepremiumOutlined"
+import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined"
 import AccessAlarmOutlinedIcon from "@mui/icons-material/AccessAlarmOutlined"
-
+import { useTranslation } from "react-i18next";
 
 
 
 
 const IconsSection = () => {
   const theme= useTheme()
+  const { t } = useTranslation();
   return (
     <Container sx={{mt:3 ,bgcolor: theme.palette.mode ==="dark"?"#000":"#fff" }}>
       <Stack sx={{flexWrap:"wrap"}} direction={"row"} alignItems={"center"}>
-        <MyBox 
-        icon={<ElectricBoltIcon  fontSize="large"/>} 
-        title={"Fast Delivery"} 
-        subTitle={"Start from $10"}/>
+       <MyBox 
+  icon={<ElectricBoltIcon fontSize="large" />} 
+  title={t("icons.fastDelivery")} 
+  subTitle={t("icons.startFrom")} 
+/>
 
-        <MyBox 
-        icon={<WorkspacepremiumOutlinedIcon fontSize="large"/>} 
-        title={"Money Guarantee"} 
-        subTitle={"7 Days Back"} />
+<MyBox 
+  icon={<WorkspacePremiumOutlinedIcon fontSize="large" />} 
+  title={t("icons.moneyGuarantee")} 
+  subTitle={t("icons.daysBack")} 
+/>
 
-        <MyBox 
-        icon={<AccessAlarmOutlinedIcon fontSize="large"/>} 
-        title={"365 Days"} 
-        subTitle={"For free retum" }/>
+<MyBox 
+  icon={<AccessAlarmOutlinedIcon fontSize="large" />} 
+  title={t("icons.days365")} 
+  subTitle={t("icons.freeReturn")} 
+/>
 
-        <MyBox 
-        icon={<CreditScoreOutlinedIcon fontSize="large"/>}
-        title={"payment"} 
-        subTitle={"Secure system"} />
+<MyBox 
+  icon={<CreditScoreOutlinedIcon fontSize="large" />}
+  title={t("icons.payment")} 
+  subTitle={t("icons.secureSystem")} 
+/>
         
       </Stack>
     </Container>

@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&display=swap');
 *{
     font-family: "Open Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 .border {
     border: 2px solid red !important;
@@ -14,5 +17,11 @@
     padding-bottom: 7px !important;
 
     font-size: 16px !important;
+}
+.PhoneInputInput {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: inherit;
 }
 html {scroll-behavior: smooth;}
