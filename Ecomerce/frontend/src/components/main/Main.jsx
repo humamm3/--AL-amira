@@ -22,10 +22,12 @@ import ProductDrtails from "./ProductDrtails";
 import { useGetproductByNameQuery } from "../../Redux/product";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Main = ({ searchText }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const mainRef = useRef(null);
 
   const [open, setOpen] = useState(false);
@@ -75,7 +77,7 @@ const Main = ({ searchText }) => {
     return (
       <Container sx={{ py: 11, textAlign: "center" }}>
         <Typography variant="h6">{error.error}</Typography>
-        <Typography variant="h6">Please try again later</Typography>
+        <Typography variant="h6">{t("main.tryAgain")}</Typography>
       </Container>
     );
   }
@@ -84,19 +86,21 @@ const Main = ({ searchText }) => {
 
   return (
     <Container ref={mainRef} sx={{ py: 7 }}>
+      {/* ===== Header ===== */}
       <Stack
         id="filters-section"
         direction="row"
         alignItems="center"
-        sx={{justifyContent:{xs:"center",md:"space-between"}}}
+        sx={{ justifyContent: { xs: "center", md: "space-between" } }}
         flexWrap="wrap"
         gap={3}
-        
       >
         <Box>
-          <Typography variant="h6">Selected Products</Typography>
+          <Typography variant="h6">
+            {t("main.selectedProducts")}
+          </Typography>
           <Typography fontWeight={300} variant="body1">
-            All our new arrivals in a exclusive selection
+            {t("main.newArrivals")}
           </Typography>
         </Box>
 
@@ -105,7 +109,6 @@ const Main = ({ searchText }) => {
           value={myDate}
           exclusive
           onChange={handleAlignment}
-          aria-label="text alignment"
           sx={{
             ".Mui-selected": {
               border: "1px solid rgba(233, 69, 96, 0.5) !important",
@@ -118,33 +121,35 @@ const Main = ({ searchText }) => {
             sx={{ color: theme.palette.text.primary }}
             value={allProductsAPI}
           >
-            All Products
+            {t("main.allProducts")}
           </ToggleButton>
 
           <ToggleButton
             sx={{ mx: "16px !important", color: theme.palette.text.primary }}
             value={basortusuAPI}
           >
-            Başörtüsü
+            {t("main.headscarves")}
           </ToggleButton>
 
           <ToggleButton
             sx={{ color: theme.palette.text.primary }}
             value={namazkiyafetleriAPI}
           >
-            Namaz kiyafetleri
+            {t("main.prayerClothes")}
           </ToggleButton>
         </ToggleButtonGroup>
       </Stack>
 
+      {/* ===== No Results ===== */}
       {data.data.length === 0 && (
         <Box sx={{ width: "100%", textAlign: "center", mt: 12 }}>
           <Typography variant="h6" color="text.secondary">
-            ❌ لم يتم العثور على المنتج الذي تبحث عنه
+            {t("main.noResults")}
           </Typography>
         </Box>
       )}
 
+      {/* ===== Products ===== */}
       <Stack
         direction="row"
         flexWrap="wrap"
@@ -181,7 +186,10 @@ const Main = ({ searchText }) => {
                     {item.produktTitle}
                   </Typography>
                   <Typography variant="subtitle1">
-                    {item.produktPrice} <span style={{color:"#991313ff", fontWeight:"bold"}}>TL</span>
+                    {item.produktPrice}{" "}
+                    <span style={{ color: "#991313ff", fontWeight: "bold" }}>
+                      TL
+                    </span>
                   </Typography>
                 </Stack>
 
@@ -193,7 +201,6 @@ const Main = ({ searchText }) => {
                 </Typography>
               </CardContent>
 
-              
               <CardActions onClick={(e) => e.stopPropagation()}>
                 <Button
                   onClick={() => {
@@ -204,7 +211,7 @@ const Main = ({ searchText }) => {
                   size="large"
                 >
                   <AddShoppingCartIcon sx={{ mr: 1 }} fontSize="small" />
-                  Add Cart
+                  {t("main.addToCart")}
                 </Button>
               </CardActions>
             </Card>
@@ -212,6 +219,7 @@ const Main = ({ searchText }) => {
         </AnimatePresence>
       </Stack>
 
+      {/* ===== Dialog ===== */}
       <Dialog
         sx={{ ".MuiPaper-root": { minWidth: { xs: "100%", md: 800 } } }}
         open={open}
@@ -223,7 +231,7 @@ const Main = ({ searchText }) => {
             position: "absolute",
             top: 0,
             right: 10,
-            zIndex:1301
+            zIndex: 1301,
           }}
           onClick={handleClose}
         >

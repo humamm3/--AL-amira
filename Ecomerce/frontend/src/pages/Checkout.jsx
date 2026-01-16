@@ -14,11 +14,11 @@ import { getCart } from "../utils/cart";
 import { useNavigate } from "react-router-dom";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
 
 /* 📞 Phone input */
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-
 import flags from "react-phone-number-input/flags";
 
 /* =========================
@@ -39,6 +39,7 @@ const formatTime = (sec) => {
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const cart = getCart();
 
   /* =========================
@@ -80,13 +81,14 @@ const Checkout = () => {
 
   const validate = () => {
     const e = {};
-    if (!/\S+@\S+\.\S+/.test(form.email)) e.email = "Invalid email";
-    if (!form.firstName) e.firstName = "Required";
-    if (!form.lastName) e.lastName = "Required";
-    if (!form.phone) e.phone = "Invalid phone";
-    if (!form.country) e.country = "Required";
-    if (!form.city) e.city = "Required";
-    if (!form.address) e.address = "Required";
+    if (!/\S+@\S+\.\S+/.test(form.email))
+      e.email = t("checkout.errors.email");
+    if (!form.firstName) e.firstName = t("checkout.errors.required");
+    if (!form.lastName) e.lastName = t("checkout.errors.required");
+    if (!form.phone) e.phone = t("checkout.errors.phone");
+    if (!form.country) e.country = t("checkout.errors.required");
+    if (!form.city) e.city = t("checkout.errors.required");
+    if (!form.address) e.address = t("checkout.errors.required");
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -108,7 +110,8 @@ const Checkout = () => {
   };
 
   const confirmOtp = async () => {
-    if (secondsLeft === 0) return alert("Code expired");
+    if (secondsLeft === 0)
+      return alert(t("checkout.otpExpired"));
     try {
       const res = await fetch("http://localhost:1337/api/otp/verify", {
         method: "POST",
@@ -123,7 +126,7 @@ const Checkout = () => {
       setOtpOpen(false);
       navigate("/payment");
     } catch {
-      alert("Wrong code");
+      alert(t("checkout.otpWrong"));
     }
   };
 
@@ -139,7 +142,9 @@ const Checkout = () => {
     <Container sx={{ py: 3, maxWidth: "md" }}>
       {/* HEADER */}
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <Typography variant="h6">Checkout</Typography>
+        <Typography variant="h6">
+          {t("checkout.title")}
+        </Typography>
         <IconButton onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon />
         </IconButton>
@@ -161,11 +166,11 @@ const Checkout = () => {
             <Box>
               <Typography fontWeight={600}>{item.title}</Typography>
               <Typography color="text.secondary">
-                {item.quantity} × {item.price} TL
+                {item.quantity} × {item.price} {t("checkout.currency")}
               </Typography>
             </Box>
             <Typography fontWeight={600}>
-              {item.price * item.quantity} TL
+              {item.price * item.quantity} {t("checkout.currency")}
             </Typography>
           </Box>
         ))}
@@ -176,7 +181,7 @@ const Checkout = () => {
       {/* FORM */}
       <Stack spacing={2}>
         <TextField
-          label="Email"
+          label={t("checkout.email")}
           name="email"
           value={form.email}
           onChange={handleChange}
@@ -187,7 +192,7 @@ const Checkout = () => {
 
         <Stack direction="row" spacing={2}>
           <TextField
-            label="First Name"
+            label={t("checkout.firstName")}
             name="firstName"
             value={form.firstName}
             onChange={handleChange}
@@ -196,7 +201,7 @@ const Checkout = () => {
             fullWidth
           />
           <TextField
-            label="Last Name"
+            label={t("checkout.lastName")}
             name="lastName"
             value={form.lastName}
             onChange={handleChange}
@@ -206,13 +211,10 @@ const Checkout = () => {
           />
         </Stack>
 
-        {/* 📞 PHONE (MUI-like) */}
+        {/* PHONE */}
         <Box>
-          <Typography
-            fontSize={12}
-            sx={{ color: "rgba(255,255,255,0.7)", ml: "14px", mb: "4px" }}
-          >
-            Phone
+          <Typography fontSize={12} sx={{ ml: "14px", mb: "4px" }}>
+            {t("checkout.phone")}
           </Typography>
 
           <Box
@@ -226,20 +228,16 @@ const Checkout = () => {
               minHeight: "56px",
               display: "flex",
               alignItems: "center",
-              "&:hover": {
-                borderColor: "rgba(255,255,255,0.87)",
-              },
             }}
           >
             <PhoneInput
-             international
-  defaultCountry={undefined}
-  flags={flags}              // ✅ هذا السطر هو السر
-  value={form.phone}
-  onChange={(v) => setForm({ ...form, phone: v || "" })}
-
-              
-              placeholder="phone number"
+              international
+              flags={flags}
+              value={form.phone}
+              onChange={(v) =>
+                setForm({ ...form, phone: v || "" })
+              }
+              placeholder={t("checkout.phonePlaceholder")}
               style={{
                 width: "100%",
                 background: "transparent",
@@ -260,7 +258,7 @@ const Checkout = () => {
 
         <Stack direction="row" spacing={2}>
           <TextField
-            label="Country"
+            label={t("checkout.country")}
             name="country"
             value={form.country}
             onChange={handleChange}
@@ -269,7 +267,7 @@ const Checkout = () => {
             fullWidth
           />
           <TextField
-            label="City"
+            label={t("checkout.city")}
             name="city"
             value={form.city}
             onChange={handleChange}
@@ -280,7 +278,7 @@ const Checkout = () => {
         </Stack>
 
         <TextField
-          label="Full Address"
+          label={t("checkout.address")}
           name="address"
           value={form.address}
           onChange={handleChange}
@@ -294,7 +292,7 @@ const Checkout = () => {
 
       <Box mt={4}>
         <Typography fontWeight={600}>
-          Total: {totalPrice} TL
+          {t("checkout.total")}: {totalPrice} {t("checkout.currency")}
         </Typography>
         <Button
           variant="contained"
@@ -302,7 +300,7 @@ const Checkout = () => {
           sx={{ mt: 2 }}
           onClick={handleSubmit}
         >
-          Confirm Order
+          {t("checkout.confirm")}
         </Button>
       </Box>
 
@@ -317,15 +315,16 @@ const Checkout = () => {
 
         <Box sx={{ p: 3 }}>
           <Typography variant="h6" textAlign="center">
-            SMS Verification
+            {t("checkout.smsTitle")}
           </Typography>
 
           <Typography textAlign="center" mb={2}>
-            Code sent to <strong>{maskPhone(form.phone)}</strong>
+            {t("checkout.smsSent")}{" "}
+            <strong>{maskPhone(form.phone)}</strong>
           </Typography>
 
           <Typography textAlign="center">
-            Code expires in {formatTime(secondsLeft)}
+            {t("checkout.expires")} {formatTime(secondsLeft)}
           </Typography>
 
           <TextField
@@ -345,7 +344,7 @@ const Checkout = () => {
             sx={{ mt: 3 }}
             onClick={confirmOtp}
           >
-            Confirm
+            {t("checkout.confirmCode")}
           </Button>
         </Box>
       </Dialog>

@@ -10,15 +10,16 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [form, setForm] = useState({
-    identifier: "", // email أو username
+    identifier: "",
     password: "",
   });
 
@@ -31,47 +32,42 @@ const Login = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.identifier) newErrors.identifier = "Required";
-    if (!form.password) newErrors.password = "Required";
+    if (!form.identifier) newErrors.identifier = t("common.required");
+    if (!form.password) newErrors.password = t("common.required");
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
- const handleLogin = async () => {
-  if (!validate()) return;
+  const handleLogin = async () => {
+    if (!validate()) return;
 
-  try {
-    const res = await fetch(
-      "http://localhost:1337/api/auth/local",
-      {
+    try {
+      const res = await fetch("http://localhost:1337/api/auth/local", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          identifier: form.identifier, // email أو username
+          identifier: form.identifier,
           password: form.password,
         }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        alert(t("login.invalid"));
+        return;
       }
-    );
 
-    const data = await res.json();
+      localStorage.setItem("token", data.jwt);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-    if (data.error) {
-      alert("Invalid credentials ❌");
-      return;
+      alert(t("login.success"));
+      navigate("/");
+    } catch {
+      alert(t("login.failed"));
     }
+  };
 
-    localStorage.setItem("token", data.jwt);
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    alert("Logged in successfully ✅");
-    navigate("/");
-  } catch (err) {
-    console.error(err);
-    alert("Login failed");
-  }
-};
   const isFormValid = form.identifier && form.password;
 
   return (
@@ -86,22 +82,19 @@ const Login = () => {
           boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
         }}
       >
-        {/* ===== HEADER ===== */}
-        <Box sx={{ display: "flex", alignItems: "center", mb: 2,justifyContent:"center" }}>
-          <Typography variant="h5" ml={1}>
-            Login
-          </Typography>
-          
-        </Box>
-
-        <Typography color="text.secondary" mb={3}>
-          please login to your account
+        {/* HEADER */}
+        <Typography variant="h5" textAlign="center" mb={1}>
+          {t("login.title")}
         </Typography>
 
-        {/* ===== FORM ===== */}
+        <Typography color="text.secondary" mb={3} textAlign="center">
+          {t("login.subtitle")}
+        </Typography>
+
+        {/* FORM */}
         <Stack spacing={2}>
           <TextField
-            label="Email or Username"
+            label={t("login.identifier")}
             name="identifier"
             value={form.identifier}
             onChange={handleChange}
@@ -111,57 +104,49 @@ const Login = () => {
           />
 
           <TextField
-  label="Password"
-  name="password"
-  type={showPassword ? "text" : "password"}
-  value={form.password}
-  onChange={handleChange}
-  error={!!errors.password}
-  helperText={errors.password}
-  fullWidth
-  autoComplete="new-password"   // مهم جداً
-  InputProps={{
-    endAdornment: (
-      <IconButton
-        onClick={() => setShowPassword((prev) => !prev)}
-        edge="end"
-      >
-        {showPassword ? <Visibility />:<VisibilityOff />  }
-      </IconButton>
-    ),
-  }}
-  sx={{
-    "& input::-ms-reveal": {
-      display: "none",
-    },
-    "& input::-ms-clear": {
-      display: "none",
-    },
-  }}
-/>
+            label={t("login.password")}
+            name="password"
+            type={showPassword ? "text" : "password"}
+            value={form.password}
+            onChange={handleChange}
+            error={!!errors.password}
+            helperText={errors.password}
+            fullWidth
+            autoComplete="new-password"
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  onClick={() => setShowPassword((p) => !p)}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              ),
+            }}
+          />
         </Stack>
 
-        {/* ===== ACTIONS ===== */}
+        {/* ACTION */}
         <Button
-  variant="contained"
-  fullWidth
-  sx={{ mt: 3, py: 1.2 }}
-  onClick={handleLogin}
-  disabled={!isFormValid}
->
-  Login
-</Button>
+          variant="contained"
+          fullWidth
+          sx={{ mt: 3, py: 1.2 }}
+          onClick={handleLogin}
+          disabled={!isFormValid}
+        >
+          {t("login.button")}
+        </Button>
 
         <Divider sx={{ my: 3 }} />
 
         <Typography variant="body2" textAlign="center">
-          Don’t have an account?{" "}
+          {t("login.noAccount")}{" "}
           <Box
             component="span"
             sx={{ color: "primary.main", cursor: "pointer" }}
             onClick={() => navigate("/register")}
           >
-            Create one
+            {t("login.create")}
           </Box>
         </Typography>
       </Box>

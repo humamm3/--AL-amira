@@ -10,9 +10,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { getCart } from "../utils/cart";
+import { useTranslation } from "react-i18next";
 
 const BankTransfer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const cart = getCart();
 
   const totalPrice = cart.reduce(
@@ -31,7 +33,9 @@ const BankTransfer = () => {
           mb: 3,
         }}
       >
-        <Typography variant="h6">Bank Transfer</Typography>
+        <Typography variant="h6">
+          {t("bankTransfer.title")}
+        </Typography>
         <IconButton onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon />
         </IconButton>
@@ -39,8 +43,7 @@ const BankTransfer = () => {
 
       {/* ===== INFO ===== */}
       <Typography variant="body2" color="text.secondary" mb={2}>
-        Please transfer the total amount to the bank account below.
-        After completing the transfer, your order will be processed.
+        {t("bankTransfer.description")}
       </Typography>
 
       {/* ===== BANK DETAILS ===== */}
@@ -55,21 +58,21 @@ const BankTransfer = () => {
       >
         <Box>
           <Typography fontSize={13} color="text.secondary">
-            Bank Name
+            {t("bankTransfer.bankName")}
           </Typography>
           <Typography fontWeight={600}>Ziraat Bankası</Typography>
         </Box>
 
         <Box>
           <Typography fontSize={13} color="text.secondary">
-            Account Holder
+            {t("bankTransfer.accountHolder")}
           </Typography>
-          <Typography fontWeight={600}>yaman kasır</Typography>
+          <Typography fontWeight={600}>Yaman Kasır</Typography>
         </Box>
 
         <Box>
           <Typography fontSize={13} color="text.secondary">
-            IBAN
+            {t("bankTransfer.iban")}
           </Typography>
           <Typography fontWeight={600}>
             TR250020500009636109200001
@@ -85,8 +88,10 @@ const BankTransfer = () => {
             fontWeight: 700,
           }}
         >
-          <Typography>Total Amount</Typography>
-          <Typography color="error.main">{totalPrice} TL</Typography>
+          <Typography>{t("bankTransfer.totalAmount")}</Typography>
+          <Typography color="error.main">
+            {totalPrice} {t("bankTransfer.currency")}
+          </Typography>
         </Box>
       </Stack>
 
@@ -95,12 +100,9 @@ const BankTransfer = () => {
         variant="contained"
         fullWidth
         sx={{ py: 1.3 }}
-        onClick={() => {
-          // لاحقاً: هون نعمل success + clearCart
-          navigate("/success");
-        }}
+        onClick={() => navigate("/success")}
       >
-        I Will Transfer & Continue
+        {t("bankTransfer.confirm")}
       </Button>
 
       <Button
@@ -108,7 +110,7 @@ const BankTransfer = () => {
         sx={{ mt: 1 }}
         onClick={() => navigate("/payment")}
       >
-        Change Payment Method
+        {t("bankTransfer.changeMethod")}
       </Button>
     </Container>
   );

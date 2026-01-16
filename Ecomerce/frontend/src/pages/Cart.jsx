@@ -1,4 +1,11 @@
-import { Box, Container, Typography, Button, Stack, IconButton } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Stack,
+  IconButton,
+} from "@mui/material";
 import {
   getCart,
   removeFromCart,
@@ -12,10 +19,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setCartItems(getCart());
@@ -30,21 +39,21 @@ const Cart = () => {
 
   return (
     <Container sx={{ py: 4 }}>
+      {/* ===== HEADER ===== */}
       <Typography
         variant="h5"
         mb={3}
         sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        Shopping Cart
+        {t("cart.title")}
         <Button onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon />
         </Button>
       </Typography>
 
+      {/* ===== EMPTY CART ===== */}
       {cartItems.length === 0 ? (
-        <Typography>Your cart is empty
-            
-        </Typography>
+        <Typography>{t("cart.empty")}</Typography>
       ) : (
         <Box px={0}>
           {cartItems.map((item) => (
@@ -59,66 +68,80 @@ const Cart = () => {
                 px: 1,
                 border: "1px solid #eee",
                 borderRadius: 4,
-                
               }}
             >
-              {/* الصورة */}
+              {/* IMAGE */}
               <Box
                 component="img"
                 src={item.img}
                 sx={{ width: 80, height: 80, objectFit: "contain" }}
               />
 
-              {/* الاسم + السعر + الكمية */}
-              <Box sx={{ flexGrow: 1, px:0}}>
-                {/* الاسم + السعر بنفس السطر */}
-                <Stack direction="row" spacing={1} alignItems="center" 
-                sx={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              {/* TITLE + PRICE + QTY */}
+              <Box sx={{ flexGrow: 1, px: 0 }}>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Typography fontWeight={600}>
                     {item.title}
                   </Typography>
                   <Typography color="crimson">
-                    {item.price}TL
+                    {item.price} {t("cart.currency")}
                   </Typography>
                 </Stack>
 
-                {/* التحكم بالكمية */}
-                <Box sx={{display:"flex", justifyContent:"center",alignItems:"center"}} spacing={1} >
+                {/* QUANTITY CONTROL */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <IconButton
                     size="small"
                     disabled={item.quantity === 1}
                     onClick={() => {
                       decreaseQty(item.id);
                       refreshCart();
-                    }}>
+                    }}
+                  >
                     <RemoveIcon />
                   </IconButton>
 
                   <Typography
-                     key={item.quantity}
-                     sx={{
-                       minWidth: 20,
-                       textAlign: "center",
-                       animation: "qtyPop 0.18s ease",
-                     }}>
-                     {item.quantity}
+                    key={item.quantity}
+                    sx={{
+                      minWidth: 20,
+                      textAlign: "center",
+                      animation: "qtyPop 0.18s ease",
+                    }}
+                  >
+                    {item.quantity}
                   </Typography>
 
                   <IconButton
-                     size="small"
-                     onClick={() => {
+                    size="small"
+                    onClick={() => {
                       increaseQty(item.id);
                       refreshCart();
-                    }}>
+                    }}
+                  >
                     <AddIcon />
                   </IconButton>
                 </Box>
               </Box>
 
-              {/* حذف */}
+              {/* DELETE */}
               <IconButton
                 color="error"
-                sx={{mr:1}}
+                sx={{ mr: 1 }}
                 onClick={() => {
                   removeFromCart(item.id);
                   refreshCart();
@@ -129,30 +152,41 @@ const Cart = () => {
             </Stack>
           ))}
 
+          {/* TOTAL */}
           <Typography mt={2} fontWeight={600}>
-            Total: {totalPrice} TL
+            {t("cart.total")}: {totalPrice} {t("cart.currency")}
           </Typography>
 
+          {/* ACTIONS */}
           <Stack direction="row" spacing={2} mt={3}>
-            <Button 
-              variant="contained" 
-              onClick={() => navigate("/checkout")}>
-              Checkout
+            <Button
+              variant="contained"
+              onClick={() => navigate("/checkout")}
+            >
+              {t("cart.checkout")}
             </Button>
-            <Button color="error" onClick={() => { clearCart(); setCartItems([]); }}>
-              Clear Cart
+            <Button
+              color="error"
+              onClick={() => {
+                clearCart();
+                setCartItems([]);
+              }}
+            >
+              {t("cart.clear")}
             </Button>
           </Stack>
         </Box>
       )}
+
+      {/* ANIMATION */}
       <style>
-{`
-  @keyframes qtyPop {
-    0% { transform: scale(0.9); }
-    100% { transform: scale(1); }
-  }
-`}
-</style>
+        {`
+          @keyframes qtyPop {
+            0% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+          }
+        `}
+      </style>
     </Container>
   );
 };

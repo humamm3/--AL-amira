@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import EmailIcon from "@mui/icons-material/Email";
@@ -29,6 +30,8 @@ import LoginIcon from "@mui/icons-material/Login";
 
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+/* ================= CONTACT LINKS ================= */
+
 const CONTACTS = {
   whatsapp: "https://wa.me/905347080488",
   call: "tel:+905347080488",
@@ -38,6 +41,7 @@ const CONTACTS = {
 const Header3 = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   /* ===== Contact menu ===== */
   const [anchorEl, setAnchorEl] = useState(null);
@@ -47,34 +51,26 @@ const Header3 = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const links = [
-    { label: "Home", icon: <HomeIcon />, action: "home" },
-    { label: "Products", icon: <ShoppingBagIcon />, action: "products" },
-    { label: "Cart", icon: <ShoppingCartIcon />, action: "cart" },
-    { label: "Login", icon: <LoginIcon />, action: "login" },
+    { label: t("nav.home"), icon: <HomeIcon />, action: "home" },
+    { label: t("nav.products"), icon: <ShoppingBagIcon />, action: "products" },
+    { label: t("nav.cart"), icon: <ShoppingCartIcon />, action: "cart" },
+    { label: t("nav.login"), icon: <LoginIcon />, action: "login" },
   ];
 
   const handleNavigate = (action) => {
-    if (action === "home") {
-      navigate("/");
-    }
+    if (action === "home") navigate("/");
 
     if (action === "products") {
       navigate("/");
       setTimeout(() => {
-        const section = document.getElementById("filters-section");
-        if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
-        }
+        document
+          .getElementById("filters-section")
+          ?.scrollIntoView({ behavior: "smooth" });
       }, 200);
     }
 
-    if (action === "cart") {
-      navigate("/cart");
-    }
-
-    if (action === "login") {
-      navigate("/login");
-    }
+    if (action === "cart") navigate("/cart");
+    if (action === "login") navigate("/login");
   };
 
   return (
@@ -86,7 +82,7 @@ const Header3 = () => {
         mt: 1,
       }}
     >
-      {/* ================== CONTACT BUTTON ================== */}
+      {/* ================= CONTACT BUTTON ================= */}
       <Box>
         <Button
           onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -97,22 +93,12 @@ const Header3 = () => {
           }}
         >
           <EmailIcon />
-          <Typography sx={{ mx: 1 }}>Contact</Typography>
+          <Typography sx={{ mx: 1 }}>{t("nav.contact")}</Typography>
           <Box flexGrow={1} />
           <KeyboardArrowRightOutlinedIcon />
         </Button>
 
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={() => setAnchorEl(null)}
-          sx={{
-            ".MuiList-root": {
-              width: 200,
-              bgcolor: theme.palette.myColor.main,
-            },
-          }}
-        >
+        <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
           <MenuItem component="a" href={CONTACTS.whatsapp} target="_blank">
             <ListItemIcon>
               <WhatsAppIcon fontSize="small" />
@@ -124,7 +110,7 @@ const Header3 = () => {
             <ListItemIcon>
               <CallIcon fontSize="small" />
             </ListItemIcon>
-            Call
+            {t("call")}
           </MenuItem>
 
           <MenuItem component="a" href={CONTACTS.facebook} target="_blank">
@@ -136,7 +122,7 @@ const Header3 = () => {
         </Menu>
       </Box>
 
-      {/* ================== DESKTOP LINKS ================== */}
+      {/* ================= DESKTOP LINKS ================= */}
       {useMediaQuery("(min-width:1200px)") && (
         <Stack direction="row" spacing={4}>
           {links.map((link) => (
@@ -152,7 +138,7 @@ const Header3 = () => {
         </Stack>
       )}
 
-      {/* ================== MOBILE MENU ================== */}
+      {/* ================= MOBILE MENU ================= */}
       {useMediaQuery("(max-width:1200px)") && (
         <IconButton onClick={() => setDrawerOpen(true)}>
           <MenuIcon />
@@ -162,9 +148,8 @@ const Header3 = () => {
       <Drawer
         anchor="top"
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-        sx={{ ".MuiDrawer-paper": { height: "100%" } }}
-      >
+        onClose={() => setDrawerOpen(false)}>
+
         <Box sx={{ width: 300, mx: "auto", mt: 8, position: "relative" }}>
           <IconButton
             sx={{ position: "absolute", top: -50, right: 0 }}

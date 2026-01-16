@@ -10,9 +10,11 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useNavigate } from "react-router-dom";
 import { getCart, clearCart } from "../utils/cart";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Success = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // نخزن الطلب محلياً قبل مسح السلة
   const [orderItems, setOrderItems] = useState([]);
@@ -42,11 +44,11 @@ const Success = () => {
         />
 
         <Typography variant="h5" fontWeight={600}>
-          تم تأكيد طلبك بنجاح 🎉
+          {t("success.title")}
         </Typography>
 
         <Typography color="text.secondary">
-          شكراً لطلبك، سيتم التواصل معك في أقرب وقت.
+          {t("success.subtitle")}
         </Typography>
 
         <Divider sx={{ width: "100%", my: 2 }} />
@@ -54,7 +56,7 @@ const Success = () => {
         {/* ملخص الطلب */}
         <Box width="100%" textAlign="left">
           <Typography fontWeight={600} mb={1}>
-            ملخص الطلب
+            {t("success.summary")}
           </Typography>
 
           {orderItems.map((item) => (
@@ -84,21 +86,23 @@ const Success = () => {
               mt: 1,
             }}
           >
-            <Typography fontWeight={600}>المجموع</Typography>
+            <Typography fontWeight={600}>
+              {t("success.total")}
+            </Typography>
             <Typography fontWeight={600} color="crimson">
               {totalPrice} TL
             </Typography>
           </Box>
         </Box>
 
-        {/* زر تم */}
+        {/* زر */}
         <Button
           variant="contained"
           fullWidth
           sx={{ mt: 3, py: 1.2 }}
           onClick={() => navigate("/")}
         >
-          OK
+          {t("success.ok")}
         </Button>
       </Stack>
     </Container>

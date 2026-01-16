@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "cart": "Cart",
+    "login": "Login",
+    "contact": "Contact"
+  },
+
+  "search": "Search...",
+  "showMui": "Show MUI",
+  "allContent": "All content",
+  "hideSensitive": "Hide sensitive notification content",
+  "hideAll": "Hide all notification content",
+
+  "currency": {
+    "tl": "TL"
+  },
+
+  "hero": {
+    "wholesaleTitle": "Wholesale Orders",
+    "wholesaleDesc": "If you want to order in bulk or wholesale quantities, contact us directly by clicking the button below.",
+    "whatsapp": "Contact via WhatsApp"
+  },
+
+  "icons": {
+    "fastDelivery": "Fast Delivery",
+    "startFrom": "Competitive Prices",
+    "moneyGuarantee": "Quality Guarantee",
+    "daysBack": "Flexible Return Policy",
+    "days365": "Continuous Service",
+    "freeReturn": "After-Sales Support",
+    "payment": "Payment",
+    "secureSystem": "Secure System"
+  },
+
+  "main": {
+    "selectedProducts": "Selected Products",
+    "newArrivals": "All our new arrivals in an exclusive selection",
+    "allProducts": "All Products",
+    "headscarves": "Headscarves",
+    "prayerClothes": "Prayer Clothes",
+    "noResults": "❌ No products found",
+    "addToCart": "Add to Cart",
+    "tryAgain": "Please try again later"
+  },
+
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "total": "Total",
+    "checkout": "Checkout",
+    "clear": "Clear Cart"
+  },
+
+  "login": {
+    "title": "Login",
+    "subtitle": "Please login to your account",
+    "identifier": "Email or Username",
+    "password": "Password",
+    "button": "Login",
+    "noAccount": "Don’t have an account?",
+    "create": "Create one",
+    "invalid": "Invalid credentials ❌",
+    "success": "Logged in successfully ✅",
+    "failed": "Login failed"
+  },
+
+  "common": {
+    "required": "Required"
+  }
+}

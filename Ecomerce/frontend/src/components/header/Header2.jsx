@@ -20,7 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { getCart } from "../../utils/cart";
-
+import { useTranslation } from "react-i18next";
 /* ================= STYLES ================= */
 
 const Search = styled("div")(({ theme }) => ({
@@ -68,13 +68,14 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header2 = ({ setSearchText }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const options = [
-    "Show MUI",
-    "All content",
-    "Hide sensitive notification content",
-    "Hide all notification content",
-  ];
+ const options = [
+  t("showMui"),
+  t("allContent"),
+  t("hideSensitive"),
+  t("hideAll"),
+];
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -137,9 +138,9 @@ const Header2 = ({ setSearchText }) => {
           </SearchIconWrapper>
 
           <StyledInputBase
-            placeholder="Search…"
-            onChange={handleSearch}
-          />
+  placeholder={t("search")}
+  onChange={handleSearch}
+/>
 
           <List
             component="nav"

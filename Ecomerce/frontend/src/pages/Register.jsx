@@ -9,9 +9,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [form, setForm] = useState({
     username: "",
@@ -26,41 +28,39 @@ const Register = () => {
   const isFormValid =
     form.username && form.email && form.password;
 
- const handleRegister = async () => {
-  try {
-    const res = await fetch(
-      "http://localhost:1337/api/auth/local/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: form.username,
-          email: form.email,
-          password: form.password,
-        }),
+  const handleRegister = async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:1337/api/auth/local/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: form.username,
+            email: form.email,
+            password: form.password,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (data?.error) {
+        alert(data.error.message);
+        return;
       }
-    );
 
-    const data = await res.json();
+      // حفظ التوكن
+      localStorage.setItem("token", data.jwt);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-    if (data.error) {
-      alert(data.error.message);
-      return;
+      alert(t("register.success"));
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert(t("register.error"));
     }
-
-    // حفظ التوكن
-    localStorage.setItem("token", data.jwt);
-    localStorage.setItem("user", JSON.stringify(data.user));
-
-    alert("Account created successfully ✅");
-    navigate("/");
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong");
-  }
-};
+  };
 
   return (
     <Container
@@ -81,14 +81,12 @@ const Register = () => {
         }}
       >
         <Typography variant="h5" textAlign="center" mb={3}>
-          Create Account
+          {t("register.title")}
         </Typography>
-
-        
 
         <Stack spacing={2}>
           <TextField
-            label="Username"
+            label={t("register.username")}
             name="username"
             value={form.username}
             onChange={handleChange}
@@ -96,7 +94,7 @@ const Register = () => {
           />
 
           <TextField
-            label="Email"
+            label={t("register.email")}
             name="email"
             value={form.email}
             onChange={handleChange}
@@ -104,7 +102,7 @@ const Register = () => {
           />
 
           <TextField
-            label="Password"
+            label={t("register.password")}
             name="password"
             type="password"
             value={form.password}
@@ -120,19 +118,19 @@ const Register = () => {
           disabled={!isFormValid}
           onClick={handleRegister}
         >
-          Create Account
+          {t("register.create")}
         </Button>
 
         <Divider sx={{ my: 3 }} />
 
         <Typography variant="body2" textAlign="center">
-          Already have an account?{" "}
+          {t("register.haveAccount")}{" "}
           <Box
             component="span"
             sx={{ color: "primary.main", cursor: "pointer" }}
             onClick={() => navigate("/login")}
           >
-            Login
+            {t("register.login")}
           </Box>
         </Typography>
       </Box>

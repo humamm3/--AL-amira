@@ -9,17 +9,19 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetproductByNameQuery } from "../Redux/product";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Close from "@mui/icons-material/Close";
 
 import ProduvtDrtails from "../components/main/ProductDrtails";
 import Main from "../components/main/Main";
-import "../pages/productViewer.css"
+import "../pages/productViewer.css";
 
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { data, isLoading, error } =
     useGetproductByNameQuery(`products/${id}?populate=*`);
@@ -36,7 +38,6 @@ const ProductPage = () => {
   }, [id]);
 
   /* ================= Swipe ================= */
-
   const handleTouchStart = (e) => {
     setTouchStart(e.targetTouches[0].clientX);
   };
@@ -59,7 +60,6 @@ const ProductPage = () => {
   };
 
   /* ================= Navigation ================= */
-
   const handleNext = () => {
     setImgIndex((prev) =>
       prev === product.produktImg.length - 1 ? 0 : prev + 1
@@ -73,7 +73,6 @@ const ProductPage = () => {
   };
 
   /* ================= States ================= */
-
   if (isLoading)
     return (
       <Box sx={{ py: 10, textAlign: "center" }}>
@@ -84,18 +83,20 @@ const ProductPage = () => {
   if (error || !product)
     return (
       <Box sx={{ py: 10, textAlign: "center" }}>
-        <Typography color="error">Error loading product</Typography>
+        <Typography color="error">
+          {t("productPage.error")}
+        </Typography>
       </Box>
     );
 
   return (
     <Container sx={{ py: 1 }}>
-      {/* زر الرجوع */}
+      {/* Back */}
       <Button onClick={() => navigate(-1)} sx={{ mb: 1 }}>
         <KeyboardBackspaceIcon />
       </Button>
 
-      {/* المنتج */}
+      {/* Product */}
       <Box
         onClick={(e) => {
           if (e.target.tagName === "IMG") {
@@ -130,7 +131,7 @@ const ProductPage = () => {
             justifyContent: "center",
           }}
         >
-          {/* إغلاق */}
+          {/* Close */}
           <IconButton
             onClick={() => setViewerOpen(false)}
             sx={{
@@ -149,7 +150,7 @@ const ProductPage = () => {
             <Close />
           </IconButton>
 
-          {/* الصورة */}
+          {/* Image */}
           <img
             src={product?.produktImg?.[imgIndex]?.url}
             alt=""
@@ -160,7 +161,7 @@ const ProductPage = () => {
             }}
           />
 
-          {/* ===== Dots ===== */}
+          {/* Dots */}
           <Box
             sx={{
               position: "absolute",
@@ -188,10 +189,10 @@ const ProductPage = () => {
         </Box>
       )}
 
-      
+      {/* More products */}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h6" mb={3}>
-          More Products
+          {t("productPage.moreProducts")}
         </Typography>
         <Main />
       </Box>

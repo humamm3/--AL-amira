@@ -14,9 +14,11 @@ import { useNavigate } from "react-router-dom";
 import { getCart } from "../utils/cart";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Payment = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const cart = getCart();
 
   const [paymentMethod, setPaymentMethod] = useState("bank");
@@ -37,7 +39,9 @@ const Payment = () => {
           mb: 3,
         }}
       >
-        <Typography variant="h6">Payment</Typography>
+        <Typography variant="h6">
+          {t("payment.title")}
+        </Typography>
         <IconButton onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon />
         </IconButton>
@@ -45,7 +49,7 @@ const Payment = () => {
 
       {/* ===== ORDER SUMMARY ===== */}
       <Typography fontWeight={600} mb={1}>
-        Order Summary
+        {t("payment.orderSummary")}
       </Typography>
 
       <Stack spacing={1}>
@@ -61,7 +65,9 @@ const Payment = () => {
             <Typography>
               {item.quantity} × {item.title}
             </Typography>
-            <Typography>{item.price * item.quantity} TL</Typography>
+            <Typography>
+              {item.price * item.quantity} {t("payment.currency")}
+            </Typography>
           </Box>
         ))}
       </Stack>
@@ -75,15 +81,17 @@ const Payment = () => {
           fontWeight: 700,
         }}
       >
-        <Typography>Total Amount</Typography>
-        <Typography color="error.main">{totalPrice} TL</Typography>
+        <Typography>{t("payment.total")}</Typography>
+        <Typography color="error.main">
+          {totalPrice} {t("payment.currency")}
+        </Typography>
       </Box>
 
       <Divider sx={{ my: 3 }} />
 
       {/* ===== PAYMENT METHOD ===== */}
       <Typography fontWeight={600} mb={1}>
-        Payment Method
+        {t("payment.method")}
       </Typography>
 
       <RadioGroup
@@ -93,17 +101,17 @@ const Payment = () => {
         <FormControlLabel
           value="bank"
           control={<Radio />}
-          label="Bank Transfer"
+          label={t("payment.bank")}
         />
         <FormControlLabel
           value="card"
           control={<Radio />}
-          label="Credit / Debit Card"
+          label={t("payment.card")}
         />
       </RadioGroup>
 
       <Typography variant="body2" color="text.secondary" mt={1}>
-        After confirming, payment details will be shown.
+        {t("payment.note")}
       </Typography>
 
       {/* ===== CONFIRM BUTTON ===== */}
@@ -119,7 +127,7 @@ const Payment = () => {
           }
         }}
       >
-        Confirm & Continue
+        {t("payment.confirm")}
       </Button>
     </Container>
   );

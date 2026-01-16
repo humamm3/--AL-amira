@@ -12,9 +12,11 @@ import { useNavigate } from "react-router-dom";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useState } from "react";
 import { getCart } from "../utils/cart";
+import { useTranslation } from "react-i18next";
 
 const CardPayment = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const cart = getCart();
 
   const [card, setCard] = useState({
@@ -52,7 +54,9 @@ const CardPayment = () => {
           mb: 2,
         }}
       >
-        <Typography variant="h6">Card Payment</Typography>
+        <Typography variant="h6">
+          {t("cardPayment.title")}
+        </Typography>
         <IconButton onClick={() => navigate(-1)}>
           <KeyboardBackspaceIcon />
         </IconButton>
@@ -68,7 +72,7 @@ const CardPayment = () => {
         }}
       >
         <Typography fontWeight={600} mb={1}>
-          Order Summary
+          {t("cardPayment.orderSummary")}
         </Typography>
 
         {cart.map((item) => (
@@ -84,7 +88,7 @@ const CardPayment = () => {
               {item.quantity} × {item.title}
             </Typography>
             <Typography fontSize={14}>
-              {item.price * item.quantity} TL
+              {item.price * item.quantity} {t("cardPayment.currency")}
             </Typography>
           </Box>
         ))}
@@ -92,9 +96,11 @@ const CardPayment = () => {
         <Divider sx={{ my: 1 }} />
 
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography fontWeight={600}>Total</Typography>
+          <Typography fontWeight={600}>
+            {t("cardPayment.total")}
+          </Typography>
           <Typography fontWeight={700} color="error.main">
-            {totalPrice} TL
+            {totalPrice} {t("cardPayment.currency")}
           </Typography>
         </Box>
       </Box>
@@ -102,7 +108,7 @@ const CardPayment = () => {
       {/* ===== CARD FORM ===== */}
       <Stack spacing={2}>
         <TextField
-          label="Card Number"
+          label={t("cardPayment.cardNumber")}
           name="number"
           value={card.number}
           onChange={handleChange}
@@ -112,7 +118,7 @@ const CardPayment = () => {
         />
 
         <TextField
-          label="Card Holder Name"
+          label={t("cardPayment.cardHolder")}
           name="name"
           value={card.name}
           onChange={handleChange}
@@ -122,7 +128,7 @@ const CardPayment = () => {
 
         <Stack direction="row" spacing={2}>
           <TextField
-            label="Month"
+            label={t("cardPayment.month")}
             name="month"
             value={card.month}
             onChange={handleChange}
@@ -131,7 +137,7 @@ const CardPayment = () => {
             fullWidth
           />
           <TextField
-            label="Year"
+            label={t("cardPayment.year")}
             name="year"
             value={card.year}
             onChange={handleChange}
@@ -140,7 +146,7 @@ const CardPayment = () => {
             fullWidth
           />
           <TextField
-            label="CVV"
+            label={t("cardPayment.cvv")}
             name="cvv"
             value={card.cvv}
             onChange={handleChange}
@@ -164,12 +170,9 @@ const CardPayment = () => {
             bgcolor: isValid ? "primary.dark" : "#cfcfcf",
           },
         }}
-        onClick={() => {
-          // لاحقاً: ربط Stripe / Iyzico / PayTR
-          navigate("/success");
-        }}
+        onClick={() => navigate("/success")}
       >
-        Pay {totalPrice} TL
+        {t("cardPayment.pay")} {totalPrice} {t("cardPayment.currency")}
       </Button>
     </Container>
   );
