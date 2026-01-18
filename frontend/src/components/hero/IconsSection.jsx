@@ -63,5 +63,3 @@ const MyBox = ({icon, title, subTitle}) => {
     </Box>
   )
 }
-
-
