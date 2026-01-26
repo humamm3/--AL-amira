@@ -6,7 +6,9 @@ import {
   TextField,
   Typography,
   Divider,
+  IconButton,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -50,7 +52,6 @@ const Register = () => {
         return;
       }
 
-      // حفظ التوكن
       localStorage.setItem("token", data.jwt);
       localStorage.setItem("user", JSON.stringify(data.user));
 
@@ -78,8 +79,17 @@ const Register = () => {
           p: 4,
           borderRadius: 3,
           boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
+          position: "relative",
         }}
       >
+        {/* زر الرجوع */}
+        <IconButton
+          onClick={() => navigate(-1)}
+          sx={{ position: "absolute", top: 12, left: 12 }}
+        >
+          <ArrowBackIcon />
+        </IconButton>
+
         <Typography variant="h5" textAlign="center" mb={3}>
           {t("register.title")}
         </Typography>

@@ -92,7 +92,7 @@ const Cart = () => {
                     {item.title}
                   </Typography>
                   <Typography color="crimson">
-                    {item.price} {t("cart.currency")}
+                    {item.price}TL
                   </Typography>
                 </Stack>
 
@@ -154,7 +154,7 @@ const Cart = () => {
 
           {/* TOTAL */}
           <Typography mt={2} fontWeight={600}>
-            {t("cart.total")}: {totalPrice} {t("cart.currency")}
+            {("Total")} : {totalPrice} TL 
           </Typography>
 
           {/* ACTIONS */}

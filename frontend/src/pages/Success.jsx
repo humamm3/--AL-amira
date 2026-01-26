@@ -7,38 +7,64 @@ import {
   Divider,
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getCart, clearCart } from "../utils/cart";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const Success = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
-  // نخزن الطلب محلياً قبل مسح السلة
+  // ✅ نقرأ حالة الدفع
+  const statuss = location.state?.statuss;
+
   const [orderItems, setOrderItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const cart = getCart();
+    // ❌ ممنوع الدخول إذا مو paid
+    if (statuss !== "paid") {
+      navigate("/waiting-payment", { replace: true });
+      return;
+    }
 
-    setOrderItems(cart);
+    // 1️⃣ نحاول نقرأ الطلب المخزن
+    const savedOrder = localStorage.getItem("lastOrder");
+
+    if (savedOrder) {
+      const parsedOrder = JSON.parse(savedOrder);
+      setOrderItems(parsedOrder.items);
+      setTotalPrice(parsedOrder.total);
+      return;
+    }
+
+    // 2️⃣ نقرأ من السلة
+    const cart = getCart();
+    if (!cart || cart.length === 0) return;
 
     const total = cart.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
     );
+
+    const order = { items: cart, total };
+
+    // 3️⃣ نخزن الطلب
+    localStorage.setItem("lastOrder", JSON.stringify(order));
+
+    // 4️⃣ نعبّي البيانات
+    setOrderItems(cart);
     setTotalPrice(total);
 
-    // نفرغ السلة بعد ما نخزن البيانات
+    // 5️⃣ نمسح السلة
     clearCart();
-  }, []);
+  }, [navigate, statuss]);
 
   return (
     <Container sx={{ py: 6, maxWidth: "sm" }}>
       <Stack spacing={3} alignItems="center" textAlign="center">
-        {/* أيقونة النجاح */}
         <CheckCircleOutlineIcon
           sx={{ fontSize: 90, color: "success.main" }}
         />
@@ -53,7 +79,6 @@ const Success = () => {
 
         <Divider sx={{ width: "100%", my: 2 }} />
 
-        {/* ملخص الطلب */}
         <Box width="100%" textAlign="left">
           <Typography fontWeight={600} mb={1}>
             {t("success.summary")}
@@ -95,12 +120,14 @@ const Success = () => {
           </Box>
         </Box>
 
-        {/* زر */}
         <Button
           variant="contained"
           fullWidth
           sx={{ mt: 3, py: 1.2 }}
-          onClick={() => navigate("/")}
+          onClick={() => {
+            localStorage.removeItem("lastOrder");
+            navigate("/");
+          }}
         >
           {t("success.ok")}
         </Button>

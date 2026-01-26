@@ -124,7 +124,11 @@ const Checkout = () => {
       const data = await res.json();
       if (!data.success) throw new Error();
       setOtpOpen(false);
-      navigate("/payment");
+      navigate("/payment", {
+  state: {
+    checkoutData: form,
+  },
+});
     } catch {
       alert(t("checkout.otpWrong"));
     }
@@ -166,11 +170,11 @@ const Checkout = () => {
             <Box>
               <Typography fontWeight={600}>{item.title}</Typography>
               <Typography color="text.secondary">
-                {item.quantity} × {item.price} {t("checkout.currency")}
+                {item.quantity} × {item.price}TL
               </Typography>
             </Box>
             <Typography fontWeight={600}>
-              {item.price * item.quantity} {t("checkout.currency")}
+              {item.price * item.quantity}TL
             </Typography>
           </Box>
         ))}
@@ -292,7 +296,7 @@ const Checkout = () => {
 
       <Box mt={4}>
         <Typography fontWeight={600}>
-          {t("checkout.total")}: {totalPrice} {t("checkout.currency")}
+          {("Total")}: {totalPrice}TL
         </Typography>
         <Button
           variant="contained"

@@ -15,6 +15,7 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import Payment from "./pages/Payment.jsx";
 import BankTransfer from "./pages/BankTransfer.jsx";
+import WaitingPayment from "./pages/WaitingPayment";
 import CardPayment from "./pages/CardPayment.jsx";
 import Success from "./pages/Success.jsx";
 import Register from "./pages/Register.jsx";
@@ -56,6 +57,7 @@ function App() {
             <Route path="/Checkout" element={<Checkout />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/bank-transfer" element={<BankTransfer />} />
+            <Route path="/waiting-payment" element={<WaitingPayment />} />
             <Route path="/card-payment" element={<CardPayment />} />
             <Route path="/success" element={<Success />} />
           </Routes>

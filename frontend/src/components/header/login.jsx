@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -82,6 +82,9 @@ const Login = () => {
           boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
         }}
       >
+         <IconButton onClick={() => navigate(-1)}>
+          <KeyboardBackspaceIcon />
+        </IconButton>
         {/* HEADER */}
         <Typography variant="h5" textAlign="center" mb={1}>
           {t("login.title")}

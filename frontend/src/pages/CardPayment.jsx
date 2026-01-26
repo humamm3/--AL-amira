@@ -88,7 +88,7 @@ const CardPayment = () => {
               {item.quantity} × {item.title}
             </Typography>
             <Typography fontSize={14}>
-              {item.price * item.quantity} {t("cardPayment.currency")}
+              {item.price * item.quantity}TL
             </Typography>
           </Box>
         ))}
@@ -100,7 +100,7 @@ const CardPayment = () => {
             {t("cardPayment.total")}
           </Typography>
           <Typography fontWeight={700} color="error.main">
-            {totalPrice} {t("cardPayment.currency")}
+            {totalPrice}TL
           </Typography>
         </Box>
       </Box>
@@ -172,7 +172,7 @@ const CardPayment = () => {
         }}
         onClick={() => navigate("/success")}
       >
-        {t("cardPayment.pay")} {totalPrice} {t("cardPayment.currency")}
+        {t("cardPayment.pay")} {totalPrice}TL
       </Button>
     </Container>
   );

@@ -68,5 +68,101 @@
 
   "common": {
     "required": "Required"
+  },
+  "register": {
+  "title": "Create Account",
+  "username": "Username",
+  "email": "Email Address",
+  "password": "Password",
+  "create": "Create Account",
+  "haveAccount": "Already have an account?",
+  "login": "Log in",
+  "success": "Account created successfully ✅",
+  "error": "An error occurred while creating the account ❌"
+},
+"showMui": "Show Interface",
+"allContent": "All content",
+"hideSensitive": "Hide sensitive notifications",
+"hideAll": "Hide all notifications",
+
+"bankTransfer": {
+  "title": "Bank Transfer",
+  "description": "Please transfer the total amount to the bank account below. Your order will be processed after the transfer.",
+  "bankName": "Bank Name",
+  "accountHolder": "Account Holder",
+  "iban": "IBAN",
+  "totalAmount": "Total Amount",
+  "confirm": "Confirm Transfer & Continue",
+  "changeMethod": "Change Payment Method"
+},
+
+"cardPayment": {
+  "title": "Card Payment",
+  "orderSummary": "Order Summary",
+  "total": "Total",
+  "cardNumber": "Card Number",
+  "cardHolder": "Card Holder Name",
+  "month": "Month",
+  "year": "Year",
+  "cvv": "CVV",
+  "pay": "Pay"
+},
+
+"checkout": {
+  "title": "Checkout",
+  "email": "Email",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "phone": "Phone",
+  "phonePlaceholder": "Phone number",
+  "country": "Country",
+  "city": "City",
+  "address": "Full Address",
+  "total": "Total",
+  "confirm": "Confirm Order",
+  "smsTitle": "SMS Verification",
+  "smsSent": "Code sent:",
+  "expires": "Expires in",
+  "confirmCode": "Confirm",
+  "otpExpired": "Code expired",
+  "otpWrong": "Invalid code",
+  "errors": {
+    "email": "Invalid email",
+    "phone": "Invalid phone",
+    "required": "Required field"
   }
+},
+
+"payment": {
+  "title": "Payment",
+  "orderSummary": "Order Summary",
+  "total": "Total Amount",
+  "method": "Payment Method",
+  "bank": "Bank Transfer",
+  "card": "Credit / Debit Card",
+  "note": "Payment details will be shown after confirmation.",
+  "confirm": "Confirm and Continue"
+},
+
+"productPage": {
+  "error": "Error loading product",
+  "moreProducts": "More Products"
+},
+
+"success": {
+  "title": "Your order has been placed successfully 🎉",
+  "subtitle": "Thank you for your order. We will contact you shortly.",
+  "summary": "Order Summary",
+  "total": "Total",
+  "ok": "OK"
+},
+
+"links": {
+  "dashboard": "Dashboard",
+  "products": "Products",
+  "orders": "Orders",
+  "profile": "Profile",
+  "trash": "Trash",
+  "spam": "Spam"
+}
 }

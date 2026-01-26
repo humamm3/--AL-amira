@@ -10,7 +10,7 @@ import {
   Radio,
   IconButton,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getCart } from "../utils/cart";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useState } from "react";
@@ -18,8 +18,12 @@ import { useTranslation } from "react-i18next";
 
 const Payment = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // ✅ جديد
   const { t } = useTranslation();
   const cart = getCart();
+
+  // 🟢 بيانات الزبون القادمة من Checkout
+  const checkoutData = location.state?.checkoutData;
 
   const [paymentMethod, setPaymentMethod] = useState("bank");
 
@@ -66,7 +70,7 @@ const Payment = () => {
               {item.quantity} × {item.title}
             </Typography>
             <Typography>
-              {item.price * item.quantity} {t("payment.currency")}
+              {item.price * item.quantity} TL
             </Typography>
           </Box>
         ))}
@@ -83,7 +87,7 @@ const Payment = () => {
       >
         <Typography>{t("payment.total")}</Typography>
         <Typography color="error.main">
-          {totalPrice} {t("payment.currency")}
+          {totalPrice} TL
         </Typography>
       </Box>
 
@@ -120,10 +124,19 @@ const Payment = () => {
         fullWidth
         sx={{ mt: 4, py: 1.3 }}
         onClick={() => {
+          if (!checkoutData) {
+            alert("بيانات الزبون غير موجودة");
+            return;
+          }
+
           if (paymentMethod === "bank") {
-            navigate("/bank-transfer");
+            navigate("/bank-transfer", {
+              state: { customer: checkoutData },
+            });
           } else {
-            navigate("/card-payment");
+            navigate("/card-payment", {
+              state: { customer: checkoutData },
+            });
           }
         }}
       >
