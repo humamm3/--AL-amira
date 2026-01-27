@@ -11,14 +11,9 @@ module.exports = [
           'connect-src': [
             "'self'",
             'https:',
-            'http://localhost:5173',
-            'http://localhost:5174',
-            'http://127.0.0.1:5174',
-
-            // 🔥 المهمين
-            'https://alamira-shop.com',
+            'https://al-amira-1.onrender.com',
             'https://www.alamira-shop.com',
-            'https://*.vercel.app',
+            'https://alamira-shop.com',
           ],
           'img-src': [
             "'self'",
@@ -32,7 +27,6 @@ module.exports = [
             'blob:',
             'res.cloudinary.com',
           ],
-          upgradeInsecureRequests: null,
         },
       },
     },
@@ -42,14 +36,9 @@ module.exports = [
     name: 'strapi::cors',
     config: {
       origin: [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'http://127.0.0.1:5174',
-
-        // 🔥 الفرونت الحقيقي
-        'https://alamira-shop.com',
         'https://www.alamira-shop.com',
-        'https://*.vercel.app',
+        'https://alamira-shop.com',
+        'https://al-amira-e880.vercel.app',
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization'],
