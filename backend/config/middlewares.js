@@ -12,21 +12,24 @@ module.exports = [
             "'self'",
             'https:',
             'http://localhost:5173',
-            'http://localhost:5174', // ✅ مهم
-            'http://127.0.0.1:5174', // ✅ مهم
+            'http://localhost:5174',
+            'http://127.0.0.1:5174',
+
+            // 🔥 المهمين
+            'https://alamira-shop.com',
+            'https://www.alamira-shop.com',
+            'https://*.vercel.app',
           ],
           'img-src': [
             "'self'",
             'data:',
             'blob:',
-            'market-assets.strapi.io',
             'res.cloudinary.com',
           ],
           'media-src': [
             "'self'",
             'data:',
             'blob:',
-            'market-assets.strapi.io',
             'res.cloudinary.com',
           ],
           upgradeInsecureRequests: null,
@@ -40,9 +43,13 @@ module.exports = [
     config: {
       origin: [
         'http://localhost:5173',
-        'http://localhost:5174',        // ✅ هذا كان ناقص
-        'http://127.0.0.1:5174',        // ✅ احتياط
-        'https://alamira-85466.web.app',
+        'http://localhost:5174',
+        'http://127.0.0.1:5174',
+
+        // 🔥 الفرونت الحقيقي
+        'https://alamira-shop.com',
+        'https://www.alamira-shop.com',
+        'https://*.vercel.app',
       ],
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization'],
