@@ -96,7 +96,7 @@ const Checkout = () => {
   const sendOtp = async () => {
     setSecondsLeft(OTP_DURATION);
     setOtpInput("");
-    await fetch("http://localhost:1337/api/otp/send", {
+    await fetch("https://al-amira-1.onrender.com/api/otp/send", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ phone: form.phone }),
@@ -113,7 +113,7 @@ const Checkout = () => {
     if (secondsLeft === 0)
       return alert(t("checkout.otpExpired"));
     try {
-      const res = await fetch("http://localhost:1337/api/otp/verify", {
+      const res = await fetch("https://al-amira-1.onrender.com/api/otp/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
